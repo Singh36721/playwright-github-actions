@@ -4,74 +4,76 @@ import { expect, test } from '@playwright/test';
 
 let userId;
 
-//test.describe('API Testing Demo', () => {
-test('GET Request', async ({ request }) => {
-  //GET Request to fetch data
+test.describe('API Testing Demo', () => {
+  test('GET Request', async ({ request }) => {
+    //GET Request to fetch data
 
-  const get_response = await request.get('https://reqres.in/api/users/?page=2');
+    const get_response = await request.get(
+      'https://reqres.in/api/users/?page=2'
+    );
 
-  console.log(await get_response.json());
+    console.log(await get_response.json());
 
-  //Expecting the appropiate status of the request
+    //Expecting the appropiate status of the request
 
-  expect(get_response.status()).toBe(200);
-});
-
-///POST REQUEST
-
-test('POST Request', async ({ request }) => {
-  //POST Request to fetch data
-
-  const post_response = await request.post('https://reqres.in/api/users', {
-    data: { name: 'Sujata Singh', job: 'Testing' },
-
-    headers: { Accept: 'applicatoion/json' },
+    expect(get_response.status()).toBe(200);
   });
 
-  //Storing the result in a varibale
-  const result = await post_response.json();
-  console.log(result);
+  ///POST REQUEST
 
-  //Expecting the appropiate status of the request
+  test('POST Request', async ({ request }) => {
+    //POST Request to fetch data
 
-  expect(post_response.status()).toBe(201);
+    const post_response = await request.post('https://reqres.in/api/users', {
+      data: { name: 'Sujata Singh', job: 'Testing' },
 
-  //Assigning the result id in variable -> userID
-  //Purpose: To update and delete the particular user in API
-  userId = result.id;
-});
+      headers: { Accept: 'applicatoion/json' },
+    });
 
-/////PUT REQUEST
+    //Storing the result in a varibale
+    const result = await post_response.json();
+    console.log(result);
 
-test('PUT Request', async ({ request }) => {
-  //PUT Request to fetch data
+    //Expecting the appropiate status of the request
 
-  const put_response = await request.put('https://reqres.in/api/users', {
-    data: { name: 'Sujata Singh', job: 'Testing- Automation' },
+    expect(post_response.status()).toBe(201);
 
-    headers: { Accept: 'applicatoion/json' },
+    //Assigning the result id in variable -> userID
+    //Purpose: To update and delete the particular user in API
+    userId = result.id;
   });
 
-  //Log the raw reponse content
-  console.log(await put_response.text());
+  /////PUT REQUEST
 
-  //Expecting the appropiate status of the request
+  test('PUT Request', async ({ request }) => {
+    //PUT Request to fetch data
 
-  expect(put_response.status()).toBe(404);
+    const put_response = await request.put('https://reqres.in/api/users', {
+      data: { name: 'Sujata Singh', job: 'Testing- Automation' },
+
+      headers: { Accept: 'applicatoion/json' },
+    });
+
+    //Log the raw reponse content
+    console.log(await put_response.text());
+
+    //Expecting the appropiate status of the request
+
+    expect(put_response.status()).toBe(404);
+  });
+
+  //DELETE REQUEST
+
+  test('DELETE Request', async ({ request }) => {
+    //DELETE Request to fetch data
+
+    const delete_response = await request.delete(
+      'https://reqres.in/api/users',
+      +userId
+    );
+
+    //Expecting the appropiate status of the request
+
+    expect(delete_response.status()).toBe(204);
+  });
 });
-
-//DELETE REQUEST
-
-test('DELETE Request', async ({ request }) => {
-  //DELETE Request to fetch data
-
-  const delete_response = await request.delete(
-    'https://reqres.in/api/users',
-    +userId
-  );
-
-  //Expecting the appropiate status of the request
-
-  expect(delete_response.status()).toBe(204);
-});
-//});
